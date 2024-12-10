@@ -19,7 +19,7 @@ namespace Modernize.Domain
         /// <summary>
         /// Product group's name
         /// </summary>
-        public required string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Product group's description
