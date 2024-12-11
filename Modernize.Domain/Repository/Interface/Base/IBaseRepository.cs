@@ -30,6 +30,13 @@
         Task UpdateAsync(TEntity entity);
 
         /// <summary>
+        /// Update many entities asynchronously
+        /// </summary>
+        /// <param name="entities">Entities to update</param>
+        /// <returns></returns>
+        Task UpdateManyAsync(IEnumerable<TEntity> entities);
+
+        /// <summary>
         /// Delete entity asynchronously
         /// </summary>
         /// <param name="entity">Entity to delete</param>

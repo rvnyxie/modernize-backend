@@ -1,17 +1,10 @@
-﻿using Modernize.Domain;
-
-namespace Modernize.Application
+﻿namespace Modernize.Application
 {
     /// <summary>
-    /// Product update command
+    /// Product Creation DTO
     /// </summary>
-    public class UpdateProductCommand : ICommand<Product>
+    public class ProductCreationDto : BaseDtoEntity
     {
-        /// <summary>
-        /// Product's ID
-        /// </summary>
-        public int Id { get; set; }
-
         /// <summary>
         /// Product's name
         /// </summary>

@@ -7,8 +7,9 @@ namespace Modernize.Application
     {
         public ProductProfile()
         {
-            CreateMap<UpdateProductCommand, Product>()
-                .ForMember(dest => dest.Group, opt => opt.Ignore());
+            CreateMap<CreateProductCommand, ProductCreationDto>();
+            CreateMap<UpdateProductCommand, ProductUpdateDto>();
+            CreateMap<Product, ProductDto>();
         }
     }
 }

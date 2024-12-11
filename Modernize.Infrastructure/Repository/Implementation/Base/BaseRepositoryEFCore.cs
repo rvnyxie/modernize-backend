@@ -33,6 +33,12 @@ namespace Modernize.Infrastructure
             return Task.CompletedTask;
         }
 
+        public Task UpdateManyAsync(IEnumerable<TEntity> entities)
+        {
+            _context.Set<TEntity>().UpdateRange(entities);
+            return Task.CompletedTask;
+        }
+
         public Task DeleteAsync(TEntity entity)
         {
             _context.Set<TEntity>().Remove(entity);
