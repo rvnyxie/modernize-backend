@@ -1,11 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Modernize.Domain;
 
 namespace Modernize.Infrastructure
 {
@@ -19,6 +15,15 @@ namespace Modernize.Infrastructure
                     configuration.GetConnectionString("MariaDbConnection"),
                     new MySqlServerVersion(new Version(11, 4))
                 ));
+
+            // Register Repository
+            // Product
+            services.AddScoped<IProductReadonlyRepository, ProductReadonlyRepositoryEFCore>();
+            services.AddScoped<IProductRepository, ProductRepositoryEFCore>();
+
+            // Product Group
+            services.AddScoped<IProductGroupReadonlyRepository, ProductGroupReadonlyRepositoryEFCore>();
+            services.AddScoped<IProductRepository, ProductRepositoryEFCore>();
 
             return services;
         }
