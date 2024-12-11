@@ -10,15 +10,15 @@ namespace Modernize.API
     {
         private readonly IQueryHandler<GetAllProductQuery, IEnumerable<Product>> _getAllProductsHandler;
 
-        private readonly ICommandHandler<CreateProductCommand> _createProductHandler;
-        private readonly ICommandHandler<UpdateProductCommand> _updateProductHandler;
-        private readonly ICommandHandler<DeleteProductCommand> _deleteProductHandler;
+        private readonly ICommandHandler<CreateProductCommand, Product> _createProductHandler;
+        private readonly ICommandHandler<UpdateProductCommand, Product> _updateProductHandler;
+        private readonly ICommandHandler<DeleteProductCommand, int> _deleteProductHandler;
 
         public ProductsController(
             IQueryHandler<GetAllProductQuery, IEnumerable<Product>> getAllProductsHandler,
-            ICommandHandler<CreateProductCommand> createProductHandler,
-            ICommandHandler<UpdateProductCommand> updateProductHandler,
-            ICommandHandler<DeleteProductCommand> deleteProductHandler)
+            ICommandHandler<CreateProductCommand, Product> createProductHandler,
+            ICommandHandler<UpdateProductCommand, Product> updateProductHandler,
+            ICommandHandler<DeleteProductCommand, int> deleteProductHandler)
         {
             _getAllProductsHandler = getAllProductsHandler;
             _createProductHandler = createProductHandler;
@@ -36,22 +36,22 @@ namespace Modernize.API
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand command)
         {
-            await _createProductHandler.HandleAsync(command);
-            return Ok();
+            var createdProduct = await _createProductHandler.HandleAsync(command);
+            return Ok(createdProduct);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(int id, [FromBody] UpdateProductCommand command)
         {
-            await _updateProductHandler.HandleAsync(command);
-            return Ok();
+            var updatedProduct = await _updateProductHandler.HandleAsync(command);
+            return Ok(updatedProduct);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProductById(int id)
         {
-            await _deleteProductHandler.HandleAsync(new DeleteProductCommand { Id = id });
-            return Ok();
+            var deletedProductId = await _deleteProductHandler.HandleAsync(new DeleteProductCommand { Id = id });
+            return Ok(deletedProductId);
         }
     }
 }

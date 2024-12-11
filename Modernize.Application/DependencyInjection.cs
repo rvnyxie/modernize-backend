@@ -1,17 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Modernize.Application.Commands.Product.Delete;
 using Modernize.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Modernize.Application
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddApplication(this IServiceCollection services) 
+        public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             // Register query handler
             // Product
@@ -23,12 +18,12 @@ namespace Modernize.Application
 
             // Register command handler
             // Product
-            services.AddScoped<ICommandHandler<CreateProductCommand>, CreateProductCommandHandler>();
-            services.AddScoped<ICommandHandler<UpdateProductCommand>, UpdateProductCommandHandler>();
-            services.AddScoped<ICommandHandler<DeleteProductCommand>, DeleteProductCommandHandler>();
+            services.AddScoped<ICommandHandler<CreateProductCommand, Product>, CreateProductCommandHandler>();
+            services.AddScoped<ICommandHandler<UpdateProductCommand, Product>, UpdateProductCommandHandler>();
+            services.AddScoped<ICommandHandler<DeleteProductCommand, int>, DeleteProductCommandHandler>();
 
             // Product Group
-            services.AddScoped<ICommandHandler<CreateProductGroupCommand>, CreateProductGroupCommandHandler>();
+            services.AddScoped<ICommandHandler<CreateProductGroupCommand, ProductGroup>, CreateProductGroupCommandHandler>();
 
             // AutoMapper
             services.AddAutoMapper(typeof(ProductProfile));

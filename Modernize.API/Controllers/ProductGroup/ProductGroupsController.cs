@@ -10,11 +10,11 @@ namespace Modernize.API
     {
         private readonly IQueryHandler<GetAllProductGroupsQuery, IEnumerable<ProductGroup>> _getAllProductGroupsHandler;
 
-        private readonly ICommandHandler<CreateProductGroupCommand> _createPProductGroupHandler;
+        private readonly ICommandHandler<CreateProductGroupCommand, ProductGroup> _createPProductGroupHandler;
 
         public ProductGroupsController(
             IQueryHandler<GetAllProductGroupsQuery, IEnumerable<ProductGroup>> getAllProductGroupsHandler,
-            ICommandHandler<CreateProductGroupCommand> createPProductGroupHandler)
+            ICommandHandler<CreateProductGroupCommand, ProductGroup> createPProductGroupHandler)
         {
             _getAllProductGroupsHandler = getAllProductGroupsHandler;
             _createPProductGroupHandler = createPProductGroupHandler;
@@ -30,8 +30,8 @@ namespace Modernize.API
         [HttpPost]
         public async Task<IActionResult> CreateProductGroup([FromBody] CreateProductGroupCommand command)
         {
-            await _createPProductGroupHandler.HandleAsync(command);
-            return Ok();
+            var newProductGroup = await _createPProductGroupHandler.HandleAsync(command);
+            return Ok(newProductGroup);
         }
     }
 }

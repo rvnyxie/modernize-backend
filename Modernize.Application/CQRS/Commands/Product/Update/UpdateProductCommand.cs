@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Modernize.Domain;
 
 namespace Modernize.Application
 {
-    public class UpdateProductCommand
+    public class UpdateProductCommand : ICommand<Product>
     {
         public int Id { get; set; }
 

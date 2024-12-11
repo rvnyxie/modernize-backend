@@ -1,13 +1,8 @@
 ﻿using Modernize.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Modernize.Application.Commands.Product.Delete
 {
-    internal class DeleteProductCommandHandler : ICommandHandler<DeleteProductCommand>
+    internal class DeleteProductCommandHandler : ICommandHandler<DeleteProductCommand, int>
     {
         private readonly AppDbContext _dbContext;
 
@@ -16,10 +11,10 @@ namespace Modernize.Application.Commands.Product.Delete
             _dbContext = dbContext;
         }
 
-        public async Task HandleAsync(DeleteProductCommand command)
+        public async Task<int> HandleAsync(DeleteProductCommand command)
         {
             var product = await _dbContext.Products.FindAsync(command.Id);
-            
+
             if (product is null)
             {
                 throw new KeyNotFoundException($"Product with ID {command.Id} not found.");
@@ -27,6 +22,8 @@ namespace Modernize.Application.Commands.Product.Delete
 
             _dbContext.Products.Remove(product);
             await _dbContext.SaveChangesAsync();
+
+            return command.Id;
         }
     }
 }

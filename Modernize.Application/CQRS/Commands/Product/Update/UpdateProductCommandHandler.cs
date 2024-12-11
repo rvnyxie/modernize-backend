@@ -1,14 +1,10 @@
 ﻿using AutoMapper;
+using Modernize.Domain;
 using Modernize.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Modernize.Application
 {
-    public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand>
+    public class UpdateProductCommandHandler : ICommandHandler<UpdateProductCommand, Product>
     {
         private readonly AppDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -19,7 +15,7 @@ namespace Modernize.Application
             _mapper = mapper;
         }
 
-        public async Task HandleAsync(UpdateProductCommand command)
+        public async Task<Product> HandleAsync(UpdateProductCommand command)
         {
             var product = await _dbContext.Products.FindAsync(command.Id);
 
@@ -32,6 +28,8 @@ namespace Modernize.Application
 
             _dbContext.Products.Update(product);
             await _dbContext.SaveChangesAsync();
+
+            return product;
         }
     }
 }

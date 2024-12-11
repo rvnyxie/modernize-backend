@@ -7,13 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Modernize.Domain\Modernize.Domain.csproj" />
-    <ProjectReference Include="..\Modernize.Infrastructure\Modernize.Infrastructure.csproj" />
+    <Compile Remove="CQRS\Commands\ProductGroup\Delete\**" />
+    <Compile Remove="CQRS\Commands\ProductGroup\Update\**" />
+    <EmbeddedResource Remove="CQRS\Commands\ProductGroup\Delete\**" />
+    <EmbeddedResource Remove="CQRS\Commands\ProductGroup\Update\**" />
+    <None Remove="CQRS\Commands\ProductGroup\Delete\**" />
+    <None Remove="CQRS\Commands\ProductGroup\Update\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\ProductGroup\Delete\" />
-    <Folder Include="Commands\ProductGroup\Update\" />
+    <ProjectReference Include="..\Modernize.Domain\Modernize.Domain.csproj" />
+    <ProjectReference Include="..\Modernize.Infrastructure\Modernize.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

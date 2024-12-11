@@ -1,14 +1,9 @@
 ﻿using Modernize.Domain;
 using Modernize.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Modernize.Application
 {
-    public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand>
+    public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand, Product>
     {
         private readonly AppDbContext _dbContext;
 
@@ -17,7 +12,7 @@ namespace Modernize.Application
             _dbContext = dbContext;
         }
 
-        public async Task HandleAsync(CreateProductCommand command)
+        public async Task<Product> HandleAsync(CreateProductCommand command)
         {
             var product = new Product
             {
@@ -27,6 +22,8 @@ namespace Modernize.Application
 
             await _dbContext.Products.AddAsync(product);
             await _dbContext.SaveChangesAsync();
+
+            return product;
         }
     }
 }
