@@ -1,31 +1,34 @@
-﻿using AutoMapper;
-using Modernize.Domain;
+﻿using Modernize.Domain;
 
 namespace Modernize.Application
 {
-    public class BaseReadonlyService<TEntity, TDtoEntity, TId> : IBaseReadonlyService<TDtoEntity, TId>
+    public abstract class BaseReadonlyService<TEntity, TDtoEntity, TId> : IBaseReadonlyService<TDtoEntity, TId>
     {
         protected readonly IBaseReadonlyRepository<TEntity, TId> BaseReadonlyRepository;
-        protected readonly IMapper Mapper;
 
-        public BaseReadonlyService(IBaseReadonlyRepository<TEntity, TId> baseReadonlyRepository, IMapper mapper)
+        public BaseReadonlyService(IBaseReadonlyRepository<TEntity, TId> baseReadonlyRepository)
         {
             BaseReadonlyRepository = baseReadonlyRepository;
-            Mapper = mapper;
         }
 
         public async Task<IEnumerable<TDtoEntity>> GetAllAsync()
         {
             var entities = await BaseReadonlyRepository.GetAllAsync();
 
-            var dtoEntities = entities.Select(entity => Mapper.Map(TEntity, TDtoEntiy)).ToList();
+            var dtoEntities = entities.Select(entity => MapEntityToDto(entity));
 
             return dtoEntities;
         }
 
-        public Task<TDtoEntity> GetByIdAsync(TId id)
+        public async Task<TDtoEntity> GetByIdAsync(TId id)
         {
-            throw new NotImplementedException();
+            var entity = await BaseReadonlyRepository.GetByIdAsync(id);
+
+            var dtoEntity = MapEntityToDto(entity);
+
+            return dtoEntity;
         }
+
+        public abstract TDtoEntity MapEntityToDto(TEntity entity);
     }
 }

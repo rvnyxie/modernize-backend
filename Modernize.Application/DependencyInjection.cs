@@ -10,7 +10,7 @@ namespace Modernize.Application
         {
             // Register query handler
             // Product
-            services.AddScoped<IQueryHandler<GetAllProductQuery, IEnumerable<Product>>, GetAllProductQueryHandler>();
+            services.AddScoped<IQueryHandler<GetAllProductQuery, IEnumerable<ProductDto>>, GetAllProductQueryHandler>();
 
             // Product Group
             services.AddScoped<IQueryHandler<GetAllProductGroupsQuery, IEnumerable<ProductGroup>>, GetAllProductGroupsQueryHandler>();

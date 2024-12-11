@@ -24,9 +24,4 @@
     <PackageReference Include="AutoMapper" Version="13.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Service\Implementation\ProductGroup\" />
-    <Folder Include="Service\Implementation\Product\" />
-  </ItemGroup>
-
 </Project>

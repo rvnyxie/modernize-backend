@@ -1,21 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Modernize.Domain;
-using Modernize.Infrastructure;
-
-namespace Modernize.Application
+﻿namespace Modernize.Application
 {
-    public class GetAllProductQueryHandler : IQueryHandler<GetAllProductQuery, IEnumerable<Product>>
+    public class GetAllProductQueryHandler : IQueryHandler<GetAllProductQuery, IEnumerable<ProductDto>>
     {
-        private readonly AppDbContext _dbContext;
+        private readonly IProductReadonlyService _productReadonlyService;
 
-        public GetAllProductQueryHandler(AppDbContext dbContext)
+        public GetAllProductQueryHandler(IProductReadonlyService productReadonlyService)
         {
-            _dbContext = dbContext;
+            _productReadonlyService = productReadonlyService;
         }
 
-        public async Task<IEnumerable<Product>> HandleAsync(GetAllProductQuery command)
+        public async Task<IEnumerable<ProductDto>> HandleAsync(GetAllProductQuery command)
         {
-            return await _dbContext.Products.ToListAsync();
+            return await _productReadonlyService.GetAllAsync();
         }
     }
 }
