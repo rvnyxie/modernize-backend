@@ -23,7 +23,7 @@ namespace Modernize.Infrastructure
 
             // Product Group
             services.AddScoped<IProductGroupReadonlyRepository, ProductGroupReadonlyRepositoryEFCore>();
-            services.AddScoped<IProductRepository, ProductRepositoryEFCore>();
+            services.AddScoped<IProductGroupRepository, ProductGroupRepositoryEFCore>();
 
             return services;
         }

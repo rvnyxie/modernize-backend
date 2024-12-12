@@ -28,6 +28,15 @@ namespace Modernize.Application
             // AutoMapper
             services.AddAutoMapper(typeof(ProductProfile));
 
+            // Resgister services
+            // Product
+            services.AddScoped<IProductReadonlyService, ProductReadonlyService>();
+            services.AddScoped<IProductService, ProductService>();
+
+            // Product Group
+            services.AddScoped<IProductGroupReadonlyService, ProductGroupReadonlyService>();
+            services.AddScoped<IProductGroupService, ProductGroupService>();
+
             return services;
         }
     }
