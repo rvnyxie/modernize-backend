@@ -2,6 +2,9 @@
 
 namespace Modernize.Application
 {
+    /// <summary>
+    /// Product Group full operations service implementation
+    /// </summary>
     public class ProductGroupService : BaseService<ProductGroup, ProductGroupDto, ProductGroupCreationDto, ProductGroupUpdateDto, int>, IProductGroupService
     {
         private readonly IProductGroupRepository _productGroupRepository;

@@ -1,16 +1,31 @@
 ﻿namespace Modernize.Application
 {
+    /// <summary>
+    /// Base DTO entity
+    /// </summary>
     public class BaseDtoEntity
     {
         #region Auditing
 
-        public DateTimeOffset createdAt;
+        /// <summary>
+        /// Created date time
+        /// </summary>
+        public DateTimeOffset CreatedAt;
 
-        public DateTimeOffset modifiedAt;
+        /// <summary>
+        /// Modified date time
+        /// </summary
+        public DateTimeOffset ModifiedAt;
 
-        public string? createdBy;
+        /// <summary>
+        /// User who creates
+        /// </summary>
+        public string? CreatedBy;
 
-        public string? modifiedBy;
+        /// <summary>
+        /// User who modifies
+        /// </summary>
+        public string? ModifiedBy;
 
         #endregion
     }

@@ -2,6 +2,9 @@
 
 namespace Modernize.Infrastructure
 {
+    /// <summary>
+    /// Unit Of Work implementation
+    /// </summary>
     public class UnitOfWork : IUnitOfWork
     {
         private readonly AppDbContext _dbContext;

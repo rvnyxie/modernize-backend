@@ -2,6 +2,14 @@
 
 namespace Modernize.Application
 {
+    /// <summary>
+    /// Base full operations service implementation
+    /// </summary>
+    /// <typeparam name="TEntity">Entity type</typeparam>
+    /// <typeparam name="TDtoEntity">DTO entity type</typeparam>
+    /// <typeparam name="TCreationDtoEntity">Creation DTO entity type</typeparam>
+    /// <typeparam name="TUpdateDtoEntity">Update DTO entity type</typeparam>
+    /// <typeparam name="TId">Entity ID type</typeparam>
     public abstract class BaseService<TEntity, TDtoEntity, TCreationDtoEntity, TUpdateDtoEntity, TId>
         : BaseReadonlyService<TEntity, TDtoEntity, TId>, IBaseService<TCreationDtoEntity, TUpdateDtoEntity, TDtoEntity, TId>
     {
@@ -66,8 +74,18 @@ namespace Modernize.Application
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Map from creation DTO entity to entity
+        /// </summary>
+        /// <param name="creationDtoEntity">Creation DTO entity need to be mapped</param>
+        /// <returns>Corresponding entity</returns>
         public abstract TEntity MapCreationDtoToEntity(TCreationDtoEntity? creationDtoEntity);
 
+        /// <summary>
+        /// Map from update DTO entity to entity
+        /// </summary>
+        /// <param name="updateDtoEntity">Update DTO entity need to be mapped</param>
+        /// <returns>Corresponding entity</returns>
         public abstract TEntity MapUpdateDtoToEntity(TUpdateDtoEntity updateDtoEntity);
     }
 }

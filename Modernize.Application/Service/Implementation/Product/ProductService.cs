@@ -13,8 +13,8 @@ namespace Modernize.Application
         public ProductService(IProductRepository productRepository, IMapper mapper, IUnitOfWork unitOfWork) : base(productRepository, unitOfWork)
         {
             _productRepository = productRepository;
-            _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public override Product MapCreationDtoToEntity(ProductCreationDto? creationDtoProduct)

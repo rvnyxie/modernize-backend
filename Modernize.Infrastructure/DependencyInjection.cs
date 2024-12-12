@@ -6,18 +6,31 @@ using Modernize.Domain;
 
 namespace Modernize.Infrastructure
 {
+    /// <summary>
+    /// Infrastructure dependency injections declaration
+    /// </summary>
     public static class DependencyInjection
     {
+        /// <summary>
+        /// Unified method used to add dependency injections in Infrastructure
+        /// </summary>
+        /// <param name="services">Application builder services</param>
+        /// <param name="configuration">Application configuration</param>
+        /// <returns></returns>
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            // Register AppDbContext with MariaDB configuration
+            #region Register AppDbContext with MariaDB configuration
+
             services.AddDbContext<AppDbContext>(
                 options => options.UseMySql(
                     configuration.GetConnectionString("MariaDbConnection"),
                     new MySqlServerVersion(new Version(11, 4))
                 ));
 
-            // Register Repository
+            #endregion
+
+            #region Register Repository
+
             // Product
             services.AddScoped<IProductReadonlyRepository, ProductReadonlyRepositoryEFCore>();
             services.AddScoped<IProductRepository, ProductRepositoryEFCore>();
@@ -26,8 +39,13 @@ namespace Modernize.Infrastructure
             services.AddScoped<IProductGroupReadonlyRepository, ProductGroupReadonlyRepositoryEFCore>();
             services.AddScoped<IProductGroupRepository, ProductGroupRepositoryEFCore>();
 
-            // Register Unit Of Work
+            #endregion
+
+            #region Register Unit Of Work
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            #endregion
 
             return services;
         }
