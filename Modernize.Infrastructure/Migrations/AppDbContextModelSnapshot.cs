@@ -22,7 +22,7 @@ namespace Modernize.Infrastructure.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("Modernize.Domain.Product", b =>
+            modelBuilder.Entity("Modernize.Domain.ProductDto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -69,7 +69,7 @@ namespace Modernize.Infrastructure.Migrations
                     b.ToTable("ProductGroups");
                 });
 
-            modelBuilder.Entity("Modernize.Domain.Product", b =>
+            modelBuilder.Entity("Modernize.Domain.ProductDto", b =>
                 {
                     b.HasOne("Modernize.Domain.ProductGroup", "Group")
                         .WithMany()

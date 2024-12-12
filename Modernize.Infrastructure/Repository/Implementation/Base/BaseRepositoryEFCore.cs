@@ -20,17 +20,20 @@ namespace Modernize.Infrastructure
         public async Task InsertAsync(TEntity entity)
         {
             await _context.Set<TEntity>().AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
         public async Task InsertManyAsync(IEnumerable<TEntity> entities)
         {
             await _context.Set<TEntity>().AddRangeAsync(entities);
+            await _context.SaveChangesAsync();
         }
 
-        public Task UpdateAsync(TEntity entity)
+        public async Task UpdateAsync(TEntity entity)
         {
             _context.Set<TEntity>().Update(entity);
-            return Task.CompletedTask;
+            await _context.SaveChangesAsync();
+            //return Task.CompletedTask;
         }
 
         public Task UpdateManyAsync(IEnumerable<TEntity> entities)
@@ -39,10 +42,11 @@ namespace Modernize.Infrastructure
             return Task.CompletedTask;
         }
 
-        public Task DeleteAsync(TEntity entity)
+        public async Task DeleteAsync(TEntity entity)
         {
             _context.Set<TEntity>().Remove(entity);
-            return Task.CompletedTask;
+            await _context.SaveChangesAsync();
+            //return Task.CompletedTask;
         }
 
         public Task DeleteManyAsync(IEnumerable<TEntity> entities)

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Modernize.Application;
-using Modernize.Domain;
 
 namespace Modernize.API
 {
@@ -8,16 +7,24 @@ namespace Modernize.API
     [Route("api/products")]
     public class ProductsController : ControllerBase
     {
+        #region Query
+
         private readonly IQueryHandler<GetAllProductQuery, IEnumerable<ProductDto>> _getAllProductsHandler;
 
-        private readonly ICommandHandler<CreateProductCommand, Product> _createProductHandler;
-        private readonly ICommandHandler<UpdateProductCommand, Product> _updateProductHandler;
+        #endregion
+
+        #region Command
+
+        private readonly ICommandHandler<CreateProductCommand, ProductDto> _createProductHandler;
+        private readonly ICommandHandler<UpdateProductCommand, ProductDto> _updateProductHandler;
         private readonly ICommandHandler<DeleteProductCommand, int> _deleteProductHandler;
+
+        #endregion
 
         public ProductsController(
             IQueryHandler<GetAllProductQuery, IEnumerable<ProductDto>> getAllProductsHandler,
-            ICommandHandler<CreateProductCommand, Product> createProductHandler,
-            ICommandHandler<UpdateProductCommand, Product> updateProductHandler,
+            ICommandHandler<CreateProductCommand, ProductDto> createProductHandler,
+            ICommandHandler<UpdateProductCommand, ProductDto> updateProductHandler,
             ICommandHandler<DeleteProductCommand, int> deleteProductHandler)
         {
             _getAllProductsHandler = getAllProductsHandler;

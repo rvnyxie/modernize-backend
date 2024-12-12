@@ -1,29 +1,25 @@
-﻿using Modernize.Domain;
-using Modernize.Infrastructure;
+﻿using AutoMapper;
 
 namespace Modernize.Application
 {
-    public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand, Product>
+    public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand, ProductDto>
     {
-        private readonly AppDbContext _dbContext;
+        private readonly IProductService _productService;
+        private readonly IMapper _mapper;
 
-        public CreateProductCommandHandler(AppDbContext dbContext)
+        public CreateProductCommandHandler(IProductService productService, IMapper mapper)
         {
-            _dbContext = dbContext;
+            _productService = productService;
+            _mapper = mapper;
         }
 
-        public async Task<Product> HandleAsync(CreateProductCommand command)
+        public async Task<ProductDto> HandleAsync(CreateProductCommand command)
         {
-            var product = new Product
-            {
-                Name = command.Name,
-                Price = command.Price
-            };
+            var productCreationDto = _mapper.Map<ProductCreationDto>(command);
 
-            await _dbContext.Products.AddAsync(product);
-            await _dbContext.SaveChangesAsync();
+            await _productService.InsertAsync(productCreationDto);
 
-            return product;
+            return _mapper.Map<ProductDto>(productCreationDto);
         }
     }
 }

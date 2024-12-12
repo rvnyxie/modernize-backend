@@ -1,29 +1,32 @@
-﻿using Modernize.Domain;
+﻿using AutoMapper;
+using Modernize.Domain;
 
 namespace Modernize.Application
 {
     public class ProductService : BaseService<Product, ProductDto, ProductCreationDto, ProductUpdateDto, int>, IProductService
     {
         private readonly IProductRepository _productRepository;
+        private readonly IMapper _mapper;
 
-        public ProductService(IProductRepository productRepository) : base(productRepository)
+        public ProductService(IProductRepository productRepository, IMapper mapper) : base(productRepository)
         {
             _productRepository = productRepository;
+            _mapper = mapper;
         }
 
-        public override Product MapCreationDtoToEntity(ProductCreationDto? creationDtoEntity)
+        public override Product MapCreationDtoToEntity(ProductCreationDto? creationDtoProduct)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<Product>(creationDtoProduct);
         }
 
-        public override ProductDto MapEntityToDto(Product entity)
+        public override ProductDto MapEntityToDto(Product product)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<ProductDto>(product);
         }
 
-        public override Product MapUpdateDtoToEntity(ProductUpdateDto updateDtoEntity)
+        public override Product MapUpdateDtoToEntity(ProductUpdateDto updateDtoProduct)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<Product>(updateDtoProduct);
         }
     }
 }

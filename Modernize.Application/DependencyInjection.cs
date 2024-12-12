@@ -18,8 +18,8 @@ namespace Modernize.Application
 
             // Register command handler
             // Product
-            services.AddScoped<ICommandHandler<CreateProductCommand, Product>, CreateProductCommandHandler>();
-            services.AddScoped<ICommandHandler<UpdateProductCommand, Product>, UpdateProductCommandHandler>();
+            services.AddScoped<ICommandHandler<CreateProductCommand, ProductDto>, CreateProductCommandHandler>();
+            services.AddScoped<ICommandHandler<UpdateProductCommand, ProductDto>, UpdateProductCommandHandler>();
             services.AddScoped<ICommandHandler<DeleteProductCommand, int>, DeleteProductCommandHandler>();
 
             // Product Group

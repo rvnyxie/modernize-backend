@@ -1,28 +1,17 @@
-﻿using Modernize.Infrastructure;
-
-namespace Modernize.Application.Commands.Product.Delete
+﻿namespace Modernize.Application.Commands.Product.Delete
 {
     internal class DeleteProductCommandHandler : ICommandHandler<DeleteProductCommand, int>
     {
-        private readonly AppDbContext _dbContext;
+        private readonly IProductService _productService;
 
-        public DeleteProductCommandHandler(AppDbContext dbContext)
+        public DeleteProductCommandHandler(IProductService productService)
         {
-            _dbContext = dbContext;
+            _productService = productService;
         }
 
         public async Task<int> HandleAsync(DeleteProductCommand command)
         {
-            var product = await _dbContext.Products.FindAsync(command.Id);
-
-            if (product is null)
-            {
-                throw new KeyNotFoundException($"Product with ID {command.Id} not found.");
-            }
-
-            _dbContext.Products.Remove(product);
-            await _dbContext.SaveChangesAsync();
-
+            await _productService.DeleteByIdAsync(command.Id);
             return command.Id;
         }
     }
