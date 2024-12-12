@@ -16,7 +16,15 @@ builder.Services.AddApplication();
 // Register Infrastructure services
 builder.Services.AddInfrastructure(builder.Configuration);
 
+// ASPNETCORE Identity, Register services
+builder.Services.AddAuthorization();
+builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
+    .AddEntityFrameworkStores<AppDbContext>();
+
 var app = builder.Build();
+
+// ASPNETCORE Identity, map Identity endpoints
+app.MapIdentityApi<ApplicationUser>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
