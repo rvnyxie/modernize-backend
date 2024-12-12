@@ -17,9 +17,9 @@ namespace Modernize.Application
         {
             var productUpdateDto = _mapper.Map<ProductUpdateDto>(command);
 
-            await _productService.UpdateAsync(productUpdateDto);
+            var updatedProductDto = await _productService.UpdateAsync(productUpdateDto);
 
-            return _mapper.Map<ProductDto>(productUpdateDto);
+            return updatedProductDto;
         }
     }
 }

@@ -17,9 +17,9 @@ namespace Modernize.Application
         {
             var productCreationDto = _mapper.Map<ProductCreationDto>(command);
 
-            await _productService.InsertAsync(productCreationDto);
+            var createdProductDto = await _productService.InsertAsync(productCreationDto);
 
-            return _mapper.Map<ProductDto>(productCreationDto);
+            return createdProductDto;
         }
     }
 }

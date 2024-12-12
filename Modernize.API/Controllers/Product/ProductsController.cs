@@ -46,7 +46,7 @@ namespace Modernize.API
             return Ok(products);
         }
 
-        #region
+        #endregion
 
         #region POST
 

@@ -11,8 +11,8 @@
 
         public async Task<int> HandleAsync(DeleteProductCommand command)
         {
-            await _productService.DeleteByIdAsync(command.Id);
-            return command.Id;
+            var rowsDeleted = await _productService.DeleteByIdAsync(command.Id);
+            return rowsDeleted;
         }
     }
 }

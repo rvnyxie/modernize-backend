@@ -13,42 +13,42 @@
         /// Insert new entity
         /// </summary>
         /// <param name="creationDtoEntity">Creation DTO entity</param>
-        /// <returns></returns>
-        Task InsertAsync(TCreationDtoEntity creationDtoEntity);
+        /// <returns>Created DTO entity</returns>
+        Task<TDtoEntity> InsertAsync(TCreationDtoEntity creationDtoEntity);
 
         /// <summary>
         /// Insert many entites
         /// </summary>
         /// <param name="creationDtoEntities">Creation DTO entities</param>
-        /// <returns></returns>
-        Task InsertManyAsync(IEnumerable<TCreationDtoEntity> creationDtoEntities);
+        /// <returns>Many created DTO entities</returns>
+        Task<IEnumerable<TDtoEntity>> InsertManyAsync(IEnumerable<TCreationDtoEntity> creationDtoEntities);
 
         /// <summary>
         /// Update entity
         /// </summary>
         /// <param name="updateDtoEntity">Update DTO entity</param>
-        /// <returns></returns>
-        Task UpdateAsync(TUpdateDtoEntity updateDtoEntity);
+        /// <returns>Updated DTO entities</returns>
+        Task<TDtoEntity> UpdateAsync(TUpdateDtoEntity updateDtoEntity);
 
         /// <summary>
         /// Update many entities
         /// </summary>
         /// <param name="updateDtoEntities">Update DTO entities</param>
-        /// <returns></returns>
-        Task UpdateManyAsync(IEnumerable<TUpdateDtoEntity> updateDtoEntities);
+        /// <returns>Many updated DTO entities</returns>
+        Task<IEnumerable<TDtoEntity>> UpdateManyAsync(IEnumerable<TUpdateDtoEntity> updateDtoEntities);
 
         /// <summary>
         /// Delete entity by ID
         /// </summary>
         /// <param name="id">Entity ID</param>
-        /// <returns></returns>
-        Task DeleteByIdAsync(TId id);
+        /// <returns>Number of records deleted</returns>
+        Task<int> DeleteByIdAsync(TId id);
 
         /// <summary>
         /// Delete many entities by IDs
         /// </summary>
         /// <param name="ids">Entity IDs</param>
-        /// <returns></returns>
-        Task DeleteManyByIdsAsync(IEnumerable<TId> ids);
+        /// <returns>Number of records deleted</returns>
+        Task<int> DeleteManyByIdsAsync(IEnumerable<TId> ids);
     }
 }

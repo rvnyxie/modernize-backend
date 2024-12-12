@@ -17,38 +17,44 @@ namespace Modernize.Infrastructure
             _context = context;
         }
 
-        public async Task InsertAsync(TEntity entity)
+        public async Task<TEntity> InsertAsync(TEntity entity)
         {
-            await _context.Set<TEntity>().AddAsync(entity);
+            var createdEntity = await _context.Set<TEntity>().AddAsync(entity);
+
+            return createdEntity.Entity;
         }
 
-        public async Task InsertManyAsync(IEnumerable<TEntity> entities)
+        public async Task<IEnumerable<TEntity>> InsertManyAsync(IEnumerable<TEntity> entities)
         {
             await _context.Set<TEntity>().AddRangeAsync(entities);
+
+            return entities;
         }
 
-        public Task UpdateAsync(TEntity entity)
+        public Task<TEntity> UpdateAsync(TEntity entity)
         {
-            _context.Set<TEntity>().Update(entity);
-            return Task.CompletedTask;
+            var updatedEntity = _context.Set<TEntity>().Update(entity);
+
+            return Task.FromResult(updatedEntity.Entity);
         }
 
-        public Task UpdateManyAsync(IEnumerable<TEntity> entities)
+        public Task<IEnumerable<TEntity>> UpdateManyAsync(IEnumerable<TEntity> entities)
         {
             _context.Set<TEntity>().UpdateRange(entities);
-            return Task.CompletedTask;
+
+            return Task.FromResult(entities);
         }
 
-        public Task DeleteAsync(TEntity entity)
+        public Task<int> DeleteAsync(TEntity entity)
         {
             _context.Set<TEntity>().Remove(entity);
-            return Task.CompletedTask;
+            return Task.FromResult(1);
         }
 
-        public Task DeleteManyAsync(IEnumerable<TEntity> entities)
+        public Task<int> DeleteManyAsync(IEnumerable<TEntity> entities)
         {
             _context.Set<TEntity>().RemoveRange(entities);
-            return Task.CompletedTask;
+            return Task.FromResult(entities.Count());
         }
     }
 }

@@ -22,54 +22,79 @@ namespace Modernize.Application
             UnitOfWork = unitOfWork;
         }
 
-        public async Task InsertAsync(TCreationDtoEntity creationDtoEntity)
+        public async Task<TDtoEntity> InsertAsync(TCreationDtoEntity creationDtoEntity)
         {
             var entity = MapCreationDtoToEntity(creationDtoEntity);
 
-            await BaseRepository.InsertAsync(entity);
+            var createdEntity = await BaseRepository.InsertAsync(entity);
 
             await UnitOfWork.SaveChangesAsync();
+
+            var createdDtoEntity = MapEntityToDto(createdEntity);
+
+            return createdDtoEntity;
         }
 
-        public async Task InsertManyAsync(IEnumerable<TCreationDtoEntity> creationDtoEntities)
+        public async Task<IEnumerable<TDtoEntity>> InsertManyAsync(IEnumerable<TCreationDtoEntity> creationDtoEntities)
         {
             var entities = creationDtoEntities.Select(creationDtoEntity => MapCreationDtoToEntity(creationDtoEntity));
 
-            await BaseRepository.InsertManyAsync(entities);
+            var createdEntites = await BaseRepository.InsertManyAsync(entities);
 
             await UnitOfWork.SaveChangesAsync();
+
+            var createdDtoEntities = createdEntites.Select(entity => MapEntityToDto(entity));
+
+            return createdDtoEntities;
         }
 
-        public async Task UpdateAsync(TUpdateDtoEntity updateDtoEntity)
+        public async Task<TDtoEntity> UpdateAsync(TUpdateDtoEntity updateDtoEntity)
         {
             var entity = MapUpdateDtoToEntity(updateDtoEntity);
 
-            await BaseRepository.UpdateAsync(entity);
+            var updatedEntity = await BaseRepository.UpdateAsync(entity);
 
             await UnitOfWork.SaveChangesAsync();
+
+            var updatedDtoEntity = MapEntityToDto(updatedEntity);
+
+            return updatedDtoEntity;
         }
 
-        public async Task UpdateManyAsync(IEnumerable<TUpdateDtoEntity> updateDtoEntities)
+        public async Task<IEnumerable<TDtoEntity>> UpdateManyAsync(IEnumerable<TUpdateDtoEntity> updateDtoEntities)
         {
             var entities = updateDtoEntities.Select(updateDtoEntity => MapUpdateDtoToEntity(updateDtoEntity));
 
-            await BaseRepository.UpdateManyAsync(entities);
+            var updatedEntities = await BaseRepository.UpdateManyAsync(entities);
 
             await UnitOfWork.SaveChangesAsync();
+
+            var updatedDtoEntites = Enumerable.Empty<TDtoEntity>();
+
+            if (updatedEntities.Any())
+            {
+                updatedDtoEntites = updatedEntities.Select(entity => MapEntityToDto(entity));
+            }
+
+            return updatedDtoEntites;
         }
 
-        public async Task DeleteByIdAsync(TId id)
+        public async Task<int> DeleteByIdAsync(TId id)
         {
             var entity = await BaseRepository.GetByIdAsync(id);
 
+            var recordsDeleted = 0;
+
             if (entity is not null)
             {
-                await BaseRepository.DeleteAsync(entity);
+                recordsDeleted = await BaseRepository.DeleteAsync(entity);
                 await UnitOfWork.SaveChangesAsync();
             }
+
+            return recordsDeleted;
         }
 
-        public async Task DeleteManyByIdsAsync(IEnumerable<TId> ids)
+        public async Task<int> DeleteManyByIdsAsync(IEnumerable<TId> ids)
         {
             throw new NotImplementedException();
         }
