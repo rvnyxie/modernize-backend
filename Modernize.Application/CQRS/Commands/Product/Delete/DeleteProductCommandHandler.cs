@@ -1,6 +1,6 @@
 ﻿namespace Modernize.Application.Commands.Product.Delete
 {
-    internal class DeleteProductCommandHandler : ICommandHandler<DeleteProductCommand, int>
+    public class DeleteProductCommandHandler : ICommandHandler<DeleteProductCommand, int>
     {
         private readonly IProductService _productService;
 

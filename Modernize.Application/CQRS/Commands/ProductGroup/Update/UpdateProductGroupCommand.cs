@@ -1,10 +1,15 @@
 ﻿namespace Modernize.Application
 {
     /// <summary>
-    /// Product Group creation command
+    /// Product Group update command
     /// </summary>
-    public class CreateProductGroupCommand : ICommand<ProductGroupDto>
+    public class UpdateProductGroupCommand : ICommand<ProductGroupDto>
     {
+        /// <summary>
+        /// Product group's ID
+        /// </summary>
+        public int Id { get; set; }
+
         /// <summary>
         /// Product group's name
         /// </summary>

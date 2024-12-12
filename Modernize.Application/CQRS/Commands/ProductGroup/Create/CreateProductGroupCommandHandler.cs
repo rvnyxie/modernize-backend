@@ -1,19 +1,28 @@
-﻿using Modernize.Domain;
+﻿using AutoMapper;
 
 namespace Modernize.Application
 {
-    public class CreateProductGroupCommandHandler : ICommandHandler<CreateProductGroupCommand, ProductGroup>
+    /// <summary>
+    /// Product Group creation command handler
+    /// </summary>
+    public class CreateProductGroupCommandHandler : ICommandHandler<CreateProductGroupCommand, ProductGroupDto>
     {
+        private readonly IProductGroupService _productGroupService;
+        private readonly IMapper _mapper;
 
-        public async Task<ProductGroup> HandleAsync(CreateProductGroupCommand command)
+        public CreateProductGroupCommandHandler(IProductGroupService productGroupService, IMapper mapper)
         {
-            var productGroup = new ProductGroup
-            {
-                Name = command.Name,
-                Description = command.Description
-            };
+            _productGroupService = productGroupService;
+            _mapper = mapper;
+        }
 
-            return productGroup;
+        public async Task<ProductGroupDto> HandleAsync(CreateProductGroupCommand command)
+        {
+            var creationDtoEntity = _mapper.Map<ProductGroupCreationDto>(command);
+
+            var createdDtoEntity = await _productGroupService.InsertAsync(creationDtoEntity);
+
+            return createdDtoEntity;
         }
     }
 }

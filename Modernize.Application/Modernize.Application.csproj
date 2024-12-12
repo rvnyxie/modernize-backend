@@ -7,15 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="CQRS\Commands\ProductGroup\Delete\**" />
-    <Compile Remove="CQRS\Commands\ProductGroup\Update\**" />
-    <EmbeddedResource Remove="CQRS\Commands\ProductGroup\Delete\**" />
-    <EmbeddedResource Remove="CQRS\Commands\ProductGroup\Update\**" />
-    <None Remove="CQRS\Commands\ProductGroup\Delete\**" />
-    <None Remove="CQRS\Commands\ProductGroup\Update\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Modernize.Domain\Modernize.Domain.csproj" />
   </ItemGroup>
 

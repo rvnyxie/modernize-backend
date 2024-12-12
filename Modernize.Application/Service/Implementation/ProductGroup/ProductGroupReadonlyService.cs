@@ -1,4 +1,5 @@
-﻿using Modernize.Domain;
+﻿using AutoMapper;
+using Modernize.Domain;
 
 namespace Modernize.Application
 {
@@ -8,15 +9,17 @@ namespace Modernize.Application
     public class ProductGroupReadonlyService : BaseReadonlyService<ProductGroup, ProductGroupDto, int>, IProductGroupReadonlyService
     {
         private readonly IProductGroupReadonlyRepository _productGroupReadonlyRepository;
+        private readonly IMapper _mapper;
 
-        public ProductGroupReadonlyService(IProductGroupReadonlyRepository productGroupReadonlyRepository) : base(productGroupReadonlyRepository)
+        public ProductGroupReadonlyService(IProductGroupReadonlyRepository productGroupReadonlyRepository, IMapper mapper) : base(productGroupReadonlyRepository)
         {
             _productGroupReadonlyRepository = productGroupReadonlyRepository;
+            _mapper = mapper;
         }
 
         public override ProductGroupDto MapEntityToDto(ProductGroup entity)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<ProductGroupDto>(entity);
         }
     }
 }

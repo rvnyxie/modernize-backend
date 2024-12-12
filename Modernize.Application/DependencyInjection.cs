@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Modernize.Application.Commands.Product.Delete;
-using Modernize.Domain;
 
 namespace Modernize.Application
 {
@@ -22,7 +21,7 @@ namespace Modernize.Application
             services.AddScoped<IQueryHandler<GetAllProductQuery, IEnumerable<ProductDto>>, GetAllProductQueryHandler>();
 
             // Product Group
-            services.AddScoped<IQueryHandler<GetAllProductGroupsQuery, IEnumerable<ProductGroup>>, GetAllProductGroupsQueryHandler>();
+            services.AddScoped<IQueryHandler<GetAllProductGroupsQuery, IEnumerable<ProductGroupDto>>, GetAllProductGroupsQueryHandler>();
 
             #endregion
 
@@ -34,12 +33,14 @@ namespace Modernize.Application
             services.AddScoped<ICommandHandler<DeleteProductCommand, int>, DeleteProductCommandHandler>();
 
             // Product Group
-            services.AddScoped<ICommandHandler<CreateProductGroupCommand, ProductGroup>, CreateProductGroupCommandHandler>();
+            services.AddScoped<ICommandHandler<CreateProductGroupCommand, ProductGroupDto>, CreateProductGroupCommandHandler>();
+            services.AddScoped<ICommandHandler<UpdateProductGroupCommand, ProductGroupDto>, UpdateProductGroupCommandHandler>();
+            services.AddScoped<ICommandHandler<DeleteProductGroupCommand, int>, DeleteProductGroupCommandHandler>();
 
             #region Register AutoMapper
 
-            // AutoMapper
             services.AddAutoMapper(typeof(MappingProductProfile));
+            services.AddAutoMapper(typeof(MappingProductGroupProfile));
 
             #endregion
 

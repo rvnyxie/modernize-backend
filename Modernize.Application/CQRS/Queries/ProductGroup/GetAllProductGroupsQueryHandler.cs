@@ -1,13 +1,22 @@
-﻿using Modernize.Domain;
-
-namespace Modernize.Application
+﻿namespace Modernize.Application
 {
-    public class GetAllProductGroupsQueryHandler : IQueryHandler<GetAllProductGroupsQuery, IEnumerable<ProductGroup>>
+    /// <summary>
+    /// Product Group get all query handler
+    /// </summary>
+    public class GetAllProductGroupsQueryHandler : IQueryHandler<GetAllProductGroupsQuery, IEnumerable<ProductGroupDto>>
     {
+        private readonly IProductGroupReadonlyService _productGroupReadonlyService;
 
-        public async Task<IEnumerable<ProductGroup>> HandleAsync(GetAllProductGroupsQuery query)
+        public GetAllProductGroupsQueryHandler(IProductGroupReadonlyService productGroupReadonlyService)
         {
-            return Enumerable.Empty<ProductGroup>();
+            _productGroupReadonlyService = productGroupReadonlyService;
+        }
+
+        public async Task<IEnumerable<ProductGroupDto>> HandleAsync(GetAllProductGroupsQuery query)
+        {
+            var dtoEntities = await _productGroupReadonlyService.GetAllAsync();
+
+            return dtoEntities;
         }
     }
 }

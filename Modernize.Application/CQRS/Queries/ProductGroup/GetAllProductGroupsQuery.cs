@@ -1,8 +1,9 @@
-﻿using Modernize.Domain;
-
-namespace Modernize.Application
+﻿namespace Modernize.Application
 {
-    public class GetAllProductGroupsQuery : IQuery<IEnumerable<ProductGroup>>
+    /// <summary>
+    /// Product Proup get all query
+    /// </summary>
+    public class GetAllProductGroupsQuery : IQuery<IEnumerable<ProductGroupDto>>
     {
     }
 }
