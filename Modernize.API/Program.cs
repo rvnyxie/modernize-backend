@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Identity;
+using Modernize.API;
 using Modernize.Application;
 using Modernize.Infrastructure;
 
@@ -18,13 +20,21 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 // ASPNETCORE Identity, Register services
 builder.Services.AddAuthorization();
-builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
-    .AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultUI();
 
 var app = builder.Build();
 
 // ASPNETCORE Identity, map Identity endpoints
 app.MapIdentityApi<ApplicationUser>();
+
+// Seed data
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await DataSeeder.Initialize(services);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
