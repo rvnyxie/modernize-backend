@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Modernize.Application\Modernize.Application.csproj" />
     <ProjectReference Include="..\Modernize.Domain\Modernize.Domain.csproj" />
   </ItemGroup>
 

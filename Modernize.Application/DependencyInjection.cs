@@ -26,7 +26,7 @@ namespace Modernize.Application
             services.AddScoped<ICommandHandler<CreateProductGroupCommand, ProductGroup>, CreateProductGroupCommandHandler>();
 
             // AutoMapper
-            services.AddAutoMapper(typeof(ProductProfile));
+            services.AddAutoMapper(typeof(MappingProductProfile));
 
             // Resgister services
             // Product

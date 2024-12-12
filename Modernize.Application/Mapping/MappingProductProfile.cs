@@ -3,9 +3,9 @@ using Modernize.Domain;
 
 namespace Modernize.Application
 {
-    public class ProductProfile : Profile
+    public class MappingProductProfile : Profile
     {
-        public ProductProfile()
+        public MappingProductProfile()
         {
             CreateMap<CreateProductCommand, ProductCreationDto>();
             CreateMap<UpdateProductCommand, ProductUpdateDto>();

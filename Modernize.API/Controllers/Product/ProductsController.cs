@@ -21,6 +21,8 @@ namespace Modernize.API
 
         #endregion
 
+        #region Constructor
+
         public ProductsController(
             IQueryHandler<GetAllProductQuery, IEnumerable<ProductDto>> getAllProductsHandler,
             ICommandHandler<CreateProductCommand, ProductDto> createProductHandler,
@@ -33,12 +35,20 @@ namespace Modernize.API
             _deleteProductHandler = deleteProductHandler;
         }
 
+        #endregion
+
+        #region GET
+
         [HttpGet]
         public async Task<IActionResult> GettAllProducts()
         {
             var products = await _getAllProductsHandler.HandleAsync(new GetAllProductQuery());
             return Ok(products);
         }
+
+        #region
+
+        #region POST
 
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand command)
@@ -47,6 +57,10 @@ namespace Modernize.API
             return Ok(createdProduct);
         }
 
+        #endregion
+
+        #region PUT
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(int id, [FromBody] UpdateProductCommand command)
         {
@@ -54,11 +68,17 @@ namespace Modernize.API
             return Ok(updatedProduct);
         }
 
+        #endregion
+
+        #region DELETE
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProductById(int id)
         {
             var deletedProductId = await _deleteProductHandler.HandleAsync(new DeleteProductCommand { Id = id });
             return Ok(deletedProductId);
         }
+
+        #endregion
     }
 }

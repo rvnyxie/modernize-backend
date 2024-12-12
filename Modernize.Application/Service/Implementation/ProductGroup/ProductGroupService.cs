@@ -5,10 +5,12 @@ namespace Modernize.Application
     public class ProductGroupService : BaseService<ProductGroup, ProductGroupDto, ProductGroupCreationDto, ProductGroupUpdateDto, int>, IProductGroupService
     {
         private readonly IProductGroupRepository _productGroupRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ProductGroupService(IProductGroupRepository productGroupRepository) : base(productGroupRepository)
+        public ProductGroupService(IProductGroupRepository productGroupRepository, IUnitOfWork unitOfWork) : base(productGroupRepository, unitOfWork)
         {
             _productGroupRepository = productGroupRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public override ProductGroup MapCreationDtoToEntity(ProductGroupCreationDto? creationDtoEntity)

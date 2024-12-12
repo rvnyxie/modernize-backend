@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Modernize.Domain\Modernize.Domain.csproj" />
-    <ProjectReference Include="..\Modernize.Infrastructure\Modernize.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

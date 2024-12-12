@@ -6,12 +6,15 @@ namespace Modernize.Application
     public class ProductService : BaseService<Product, ProductDto, ProductCreationDto, ProductUpdateDto, int>, IProductService
     {
         private readonly IProductRepository _productRepository;
+        private readonly IUnitOfWork _unitOfWork;
+
         private readonly IMapper _mapper;
 
-        public ProductService(IProductRepository productRepository, IMapper mapper) : base(productRepository)
+        public ProductService(IProductRepository productRepository, IMapper mapper, IUnitOfWork unitOfWork) : base(productRepository, unitOfWork)
         {
             _productRepository = productRepository;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
         public override Product MapCreationDtoToEntity(ProductCreationDto? creationDtoProduct)

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Modernize.Application;
 using Modernize.Domain;
 
 namespace Modernize.Infrastructure
@@ -24,6 +25,9 @@ namespace Modernize.Infrastructure
             // Product Group
             services.AddScoped<IProductGroupReadonlyRepository, ProductGroupReadonlyRepositoryEFCore>();
             services.AddScoped<IProductGroupRepository, ProductGroupRepositoryEFCore>();
+
+            // Register Unit Of Work
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;
         }

@@ -6,10 +6,12 @@ namespace Modernize.Application
         : BaseReadonlyService<TEntity, TDtoEntity, TId>, IBaseService<TCreationDtoEntity, TUpdateDtoEntity, TDtoEntity, TId>
     {
         protected readonly IBaseRepository<TEntity, TId> BaseRepository;
+        protected readonly IUnitOfWork UnitOfWork;
 
-        public BaseService(IBaseRepository<TEntity, TId> baseRepository) : base(baseRepository)
+        public BaseService(IBaseRepository<TEntity, TId> baseRepository, IUnitOfWork unitOfWork) : base(baseRepository)
         {
             BaseRepository = baseRepository;
+            UnitOfWork = unitOfWork;
         }
 
         public async Task InsertAsync(TCreationDtoEntity creationDtoEntity)
@@ -17,6 +19,8 @@ namespace Modernize.Application
             var entity = MapCreationDtoToEntity(creationDtoEntity);
 
             await BaseRepository.InsertAsync(entity);
+
+            await UnitOfWork.SaveChangesAsync();
         }
 
         public async Task InsertManyAsync(IEnumerable<TCreationDtoEntity> creationDtoEntities)
@@ -24,6 +28,8 @@ namespace Modernize.Application
             var entities = creationDtoEntities.Select(creationDtoEntity => MapCreationDtoToEntity(creationDtoEntity));
 
             await BaseRepository.InsertManyAsync(entities);
+
+            await UnitOfWork.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(TUpdateDtoEntity updateDtoEntity)
@@ -31,6 +37,8 @@ namespace Modernize.Application
             var entity = MapUpdateDtoToEntity(updateDtoEntity);
 
             await BaseRepository.UpdateAsync(entity);
+
+            await UnitOfWork.SaveChangesAsync();
         }
 
         public async Task UpdateManyAsync(IEnumerable<TUpdateDtoEntity> updateDtoEntities)
@@ -38,6 +46,8 @@ namespace Modernize.Application
             var entities = updateDtoEntities.Select(updateDtoEntity => MapUpdateDtoToEntity(updateDtoEntity));
 
             await BaseRepository.UpdateManyAsync(entities);
+
+            await UnitOfWork.SaveChangesAsync();
         }
 
         public async Task DeleteByIdAsync(TId id)
@@ -47,6 +57,7 @@ namespace Modernize.Application
             if (entity is not null)
             {
                 await BaseRepository.DeleteAsync(entity);
+                await UnitOfWork.SaveChangesAsync();
             }
         }
 
