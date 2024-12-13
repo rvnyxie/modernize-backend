@@ -32,11 +32,11 @@ namespace Modernize.Infrastructure
             #region Register Repository
 
             // Product
-            services.AddScoped<IProductReadonlyRepository, ProductReadonlyRepositoryEFCore>();
+            services.AddScoped<IProductReadonlyRepository, ProductReadonlyRepositoryDapper>();
             services.AddScoped<IProductRepository, ProductRepositoryEFCore>();
 
             // Product Group
-            services.AddScoped<IProductGroupReadonlyRepository, ProductGroupReadonlyRepositoryEFCore>();
+            services.AddScoped<IProductGroupReadonlyRepository, ProductGroupReadonlyRepositoryDapper>();
             services.AddScoped<IProductGroupRepository, ProductGroupRepositoryEFCore>();
 
             #endregion

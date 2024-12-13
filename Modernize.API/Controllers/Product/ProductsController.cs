@@ -4,17 +4,17 @@ using Modernize.Application;
 
 namespace Modernize.API
 {
+    /// <summary>
+    /// Product controller
+    /// </summary>
     [ApiController]
     [Route("api/products")]
     public class ProductsController : ControllerBase
     {
-        #region Query
+
+        #region Declaration
 
         private readonly IQueryHandler<GetAllProductQuery, IEnumerable<ProductDto>> _getAllProductsHandler;
-
-        #endregion
-
-        #region Command
 
         private readonly ICommandHandler<CreateProductCommand, ProductDto> _createProductHandler;
         private readonly ICommandHandler<UpdateProductCommand, ProductDto> _updateProductHandler;

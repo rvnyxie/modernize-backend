@@ -5,13 +5,20 @@ using Modernize.Infrastructure;
 
 namespace Modernize.API.Controllers.Auth
 {
+    /// <summary>
+    /// Authentication controller
+    /// </summary>
     [ApiController]
     [Route("/auth")]
     public class AuthController : ControllerBase
     {
+        #region Declaration
+
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly JwtTokenGenerator _jwtGenerator;
+
+        #endregion
 
         public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, JwtTokenGenerator jwtGenerator)
         {

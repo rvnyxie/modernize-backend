@@ -4,6 +4,9 @@ using Modernize.Application;
 
 namespace Modernize.API
 {
+    /// <summary>
+    /// Product Group controller
+    /// </summary>
     [ApiController]
     [Route("api/product-groups")]
     public class ProductGroupsController : ControllerBase
