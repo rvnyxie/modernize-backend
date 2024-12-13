@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Modernize.Application;
 
 namespace Modernize.API
@@ -38,6 +39,7 @@ namespace Modernize.API
         #region GET
 
         [HttpGet]
+        [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> GetAllProductGroups()
         {
             var productGroups = await _getAllProductGroupsHandler.HandleAsync(new GetAllProductGroupsQuery());
@@ -49,6 +51,7 @@ namespace Modernize.API
         #region POST
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateProductGroup([FromBody] CreateProductGroupCommand command)
         {
             var createdProductGroup = await _createPProductGroupHandler.HandleAsync(command);
@@ -60,6 +63,7 @@ namespace Modernize.API
         #region PUT
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateProductGroup(int id, [FromBody] UpdateProductGroupCommand command)
         {
             var updatedProductGroup = await _updateProductGroupHandler.HandleAsync(command);
@@ -72,6 +76,7 @@ namespace Modernize.API
         #region DELETE
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteProductGroup(int id, [FromBody] DeleteProductGroupCommand command)
         {
             var rowsDeleted = await _deleteProductGroupHandler.HandleAsync(command);

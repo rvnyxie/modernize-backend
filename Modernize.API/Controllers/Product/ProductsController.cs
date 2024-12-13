@@ -5,7 +5,6 @@ using Modernize.Application;
 namespace Modernize.API
 {
     [ApiController]
-    [Authorize]
     [Route("api/products")]
     public class ProductsController : ControllerBase
     {
@@ -42,6 +41,7 @@ namespace Modernize.API
         #region GET
 
         [HttpGet]
+        [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> GettAllProducts()
         {
             var products = await _getAllProductsHandler.HandleAsync(new GetAllProductQuery());
@@ -53,6 +53,7 @@ namespace Modernize.API
         #region POST
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand command)
         {
             var createdProduct = await _createProductHandler.HandleAsync(command);
@@ -64,6 +65,7 @@ namespace Modernize.API
         #region PUT
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateProduct(int id, [FromBody] UpdateProductCommand command)
         {
             var updatedProduct = await _updateProductHandler.HandleAsync(command);
@@ -75,6 +77,7 @@ namespace Modernize.API
         #region DELETE
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteProductById(int id)
         {
             var deletedProductId = await _deleteProductHandler.HandleAsync(new DeleteProductCommand { Id = id });
