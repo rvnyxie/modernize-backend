@@ -4,6 +4,8 @@
     {
         #region Personal info
 
+        public Guid Id { get; set; }
+
         public string? FullName { get; set; }
 
         public DateTimeOffset? DateOfBirth { get; set; }

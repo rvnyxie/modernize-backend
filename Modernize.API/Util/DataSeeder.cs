@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Modernize.Infrastructure;
+using Modernize.Domain;
 
 namespace Modernize.API
 {
@@ -8,7 +8,7 @@ namespace Modernize.API
         public static async Task Initialize(IServiceProvider serviceProvider)
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
 
             // Create Admin Role
             if (!await roleManager.RoleExistsAsync("Admin"))
@@ -28,7 +28,7 @@ namespace Modernize.API
 
             if (adminUser == null)
             {
-                var admin = new ApplicationUser
+                var admin = new User
                 {
                     UserName = "admin",
                     Email = adminEmail,

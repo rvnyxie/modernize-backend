@@ -37,10 +37,15 @@ namespace Modernize.Application
             services.AddScoped<ICommandHandler<UpdateProductGroupCommand, ProductGroupDto>, UpdateProductGroupCommandHandler>();
             services.AddScoped<ICommandHandler<DeleteProductGroupCommand, int>, DeleteProductGroupCommandHandler>();
 
+            // User
+            services.AddScoped<ICommandHandler<CreateUserCommand, UserDto>, CreateUserCommandHandler>();
+            services.AddScoped<ICommandHandler<LoginUserCommand, LoginSuccessCredentialsDto>, LoginUserCommandHandler>();
+
             #region Register AutoMapper
 
             services.AddAutoMapper(typeof(MappingProductProfile));
             services.AddAutoMapper(typeof(MappingProductGroupProfile));
+            services.AddAutoMapper(typeof(MappingUserProfile));
 
             #endregion
 
@@ -53,6 +58,10 @@ namespace Modernize.Application
             // Product Group
             services.AddScoped<IProductGroupReadonlyService, ProductGroupReadonlyService>();
             services.AddScoped<IProductGroupService, ProductGroupService>();
+
+            // User
+            services.AddScoped<IUserReadonlyService, UserReadonlyService>();
+            services.AddScoped<IUserService<LoginDto>, UserService>();
 
             #endregion
 

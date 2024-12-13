@@ -203,7 +203,7 @@ namespace Modernize.Infrastructure.Migrations
                     b.ToTable("ProductGroups");
                 });
 
-            modelBuilder.Entity("Modernize.Infrastructure.ApplicationUser", b =>
+            modelBuilder.Entity("Modernize.Infrastructure.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
@@ -293,7 +293,7 @@ namespace Modernize.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Modernize.Infrastructure.ApplicationUser", null)
+                    b.HasOne("Modernize.Infrastructure.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -302,7 +302,7 @@ namespace Modernize.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Modernize.Infrastructure.ApplicationUser", null)
+                    b.HasOne("Modernize.Infrastructure.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -317,7 +317,7 @@ namespace Modernize.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Modernize.Infrastructure.ApplicationUser", null)
+                    b.HasOne("Modernize.Infrastructure.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -326,7 +326,7 @@ namespace Modernize.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Modernize.Infrastructure.ApplicationUser", null)
+                    b.HasOne("Modernize.Infrastructure.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

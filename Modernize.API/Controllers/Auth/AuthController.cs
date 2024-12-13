@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Modernize.Application;
-using Modernize.Infrastructure;
 
 namespace Modernize.API.Controllers.Auth
 {
@@ -14,67 +12,53 @@ namespace Modernize.API.Controllers.Auth
     {
         #region Declaration
 
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly JwtTokenGenerator _jwtGenerator;
+        private readonly ICommandHandler<LoginUserCommand, LoginSuccessCredentialsDto> _loginUserHandler;
 
         #endregion
 
-        public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, JwtTokenGenerator jwtGenerator)
+        #region Constructor
+
+        public AuthController(ICommandHandler<LoginUserCommand, LoginSuccessCredentialsDto> loginUserHandler)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _jwtGenerator = jwtGenerator;
+            _loginUserHandler = loginUserHandler;
         }
+
+        #endregion
 
         [HttpPost("register")]
         public async Task<IActionResult> CreateUser([FromBody] UserCreationDto userCreationDto)
         {
-            var user = new ApplicationUser
-            {
-                UserName = userCreationDto.UserName,
-                Email = userCreationDto.Email,
-                FullName = userCreationDto.FullName,
-                DateOfBirth = userCreationDto.DateOfBirth,
-                Address = userCreationDto.Address,
-                ProfilePictureUrl = userCreationDto.ProfilePictureUrl,
-                Description = userCreationDto.Description,
-            };
+            //var user = new ApplicationUser
+            //{
+            //    UserName = userCreationDto.UserName,
+            //    Email = userCreationDto.Email,
+            //    FullName = userCreationDto.FullName,
+            //    DateOfBirth = userCreationDto.DateOfBirth,
+            //    Address = userCreationDto.Address,
+            //    ProfilePictureUrl = userCreationDto.ProfilePictureUrl,
+            //    Description = userCreationDto.Description,
+            //};
 
-            var result = await _userManager.CreateAsync(user, userCreationDto.Password);
+            //var result = await _userManager.CreateAsync(user, userCreationDto.Password);
+            //_userManager.
 
-            if (!result.Succeeded)
-            {
-                return BadRequest(result.Errors);
-            }
+            //if (!result.Succeeded)
+            //{
+            //    return BadRequest(result.Errors);
+            //}
 
-            await _userManager.AddToRoleAsync(user, "Customer");
+            //await _userManager.AddToRoleAsync(user, "Customer");
 
-            return Ok(result.Succeeded);
+            //return Ok(result.Succeeded);
+            return Ok();
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+        public async Task<IActionResult> Login([FromBody] LoginUserCommand command)
         {
-            var user = await _userManager.FindByEmailAsync(loginDto.Email);
+            var loginSuccessCredentialsDto = await _loginUserHandler.HandleAsync(command);
 
-            if (user == null)
-            {
-                return Unauthorized("Invalid email or password");
-            }
-
-            var result = await _signInManager.PasswordSignInAsync(user, loginDto.Password, false, false);
-
-            if (!result.Succeeded)
-            {
-                return Unauthorized("Invalid email or password");
-            }
-
-            var roles = await _userManager.GetRolesAsync(user);
-
-            var token = _jwtGenerator.GenerateToken(user, roles);
-
-            return Ok(new { Token = token });
+            return Ok(loginSuccessCredentialsDto);
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Modernize.API;
 using Modernize.Application;
+using Modernize.Domain;
 using Modernize.Infrastructure;
 using System.Text;
 
@@ -43,7 +44,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // Register JWT Generator service
-builder.Services.AddSingleton<JwtTokenGenerator>();
+builder.Services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
 
 // Register Application services
 builder.Services.AddApplication();
@@ -58,7 +59,7 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("CustomerOnly", policy => policy.RequireRole("Customer"));
 });
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultUI();
 
@@ -85,7 +86,7 @@ builder.Services.AddAuthentication(options =>
 var app = builder.Build();
 
 // ASPNETCORE Identity, map Identity endpoints
-app.MapIdentityApi<ApplicationUser>();
+app.MapIdentityApi<User>();
 
 // Seed data
 using (var scope = app.Services.CreateScope())

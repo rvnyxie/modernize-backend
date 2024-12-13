@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Modernize.Infrastructure
+namespace Modernize.Domain
 {
-    public class ApplicationUser : IdentityUser
+    public class User : IdentityUser
     {
         #region Personal info
 

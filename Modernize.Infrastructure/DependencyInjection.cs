@@ -39,6 +39,10 @@ namespace Modernize.Infrastructure
             services.AddScoped<IProductGroupReadonlyRepository, ProductGroupReadonlyRepositoryDapper>();
             services.AddScoped<IProductGroupRepository, ProductGroupRepositoryEFCore>();
 
+            // User
+            services.AddScoped<IUserReadonlyRepository, UserReadonlyRepositoryEFCore>();
+            services.AddScoped<IUserRepository, UserRepository>();
+
             #endregion
 
             #region Register Unit Of Work
