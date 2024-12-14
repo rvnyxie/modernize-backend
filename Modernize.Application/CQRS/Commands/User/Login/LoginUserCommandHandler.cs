@@ -25,7 +25,6 @@ namespace Modernize.Application
             };
 
             return loginSuccessCredentailsDto;
-
         }
     }
 }
