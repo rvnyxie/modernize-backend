@@ -51,8 +51,7 @@ namespace Modernize.API
             switch (exception)
             {
                 case InvalidCredentialException invalidCredentialException:
-                    //context.Response.StatusCode = (int)invalidCredentialException.HttpStatusCode;
-                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                    context.Response.StatusCode = (int)invalidCredentialException.HttpStatusCode;
                     await context.Response.WriteAsync(
                         text: exception.ToString()
                     );

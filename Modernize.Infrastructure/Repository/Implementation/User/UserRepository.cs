@@ -115,10 +115,28 @@ namespace Modernize.Infrastructure
 
         public async Task<User> CreateUser(User user, string password)
         {
-            await _userManager.CreateAsync(user, password);
+            var userCreationResult = await _userManager.CreateAsync(user, password);
 
-            await _userManager.AddToRoleAsync(user, "Customer");
+            if (!userCreationResult.Succeeded)
+            {
+                throw new InvalidCredentialException(
+                    ErrorCode.BAD_CREDENTIALS,
+                    HttpStatusCode.BadRequest,
+                    "Invalid user information provided",
+                    userCreationResult.Errors
+                );
+            }
 
+            var userRoleCreatioResult = await _userManager.AddToRoleAsync(user, "Customer");
+
+            if (!userRoleCreatioResult.Succeeded)
+            {
+                throw new InvalidCredentialException(
+                    ErrorCode.BAD_CREDENTIALS,
+                    HttpStatusCode.BadRequest,
+                    "Can't add user role"
+                );
+            }
             return user;
         }
 

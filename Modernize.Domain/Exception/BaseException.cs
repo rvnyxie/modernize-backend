@@ -23,6 +23,14 @@ namespace Modernize.Domain
             Message = message;
         }
 
+        public BaseException(ErrorCode errorCode, HttpStatusCode httpStatusCode, string message, object error) : base(message)
+        {
+            ErrorCode = errorCode;
+            HttpStatusCode = httpStatusCode;
+            Message = message;
+            Error = error;
+        }
+
         public override string ToString()
         {
             var serializedException = new
