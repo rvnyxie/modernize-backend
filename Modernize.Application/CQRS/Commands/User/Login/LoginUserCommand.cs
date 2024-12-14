@@ -1,6 +1,6 @@
 ﻿namespace Modernize.Application
 {
-    public class LoginUserCommand : ICommand<LoginSuccessCredentialsDto>
+    public class LoginUserCommand : ICommand<LoginSuccessDto>
     {
         public string? Email { get; set; }
 

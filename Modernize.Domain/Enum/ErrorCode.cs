@@ -8,12 +8,12 @@ namespace Modernize.Domain
     public enum ErrorCode
     {
         [Description("Bad credentials provided")]
-        BAD_CREDENTIALS,
+        BAD_CREDENTIALS = 4001,
 
         [Description("Entity not found")]
-        ENTITY_NOT_FOUND,
+        ENTITY_NOT_FOUND = 4041,
 
         [Description("Unknown exception")]
-        UNHANDLED
+        UNHANDLED = 5000
     }
 }

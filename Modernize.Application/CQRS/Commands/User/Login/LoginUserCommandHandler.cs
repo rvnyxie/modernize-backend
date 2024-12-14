@@ -2,26 +2,26 @@
 
 namespace Modernize.Application
 {
-    public class LoginUserCommandHandler : ICommandHandler<LoginUserCommand, LoginSuccessCredentialsDto>
+    public class LoginUserCommandHandler : ICommandHandler<LoginUserCommand, LoginSuccessDto>
     {
-        private readonly IUserService<LoginDto> _userService;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public LoginUserCommandHandler(IUserService<LoginDto> userService, IMapper mapper)
+        public LoginUserCommandHandler(IUserService userService, IMapper mapper)
         {
             _userService = userService;
             _mapper = mapper;
         }
 
-        public async Task<LoginSuccessCredentialsDto> HandleAsync(LoginUserCommand command)
+        public async Task<LoginSuccessDto> HandleAsync(LoginUserCommand command)
         {
             var loginDto = _mapper.Map<LoginDto>(command);
 
             var token = await _userService.Login(loginDto);
 
-            var loginSuccessCredentailsDto = new LoginSuccessCredentialsDto()
+            var loginSuccessCredentailsDto = new LoginSuccessDto()
             {
-                Token = token
+                AccessToken = token
             };
 
             return loginSuccessCredentailsDto;

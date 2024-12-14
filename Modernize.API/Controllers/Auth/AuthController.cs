@@ -12,53 +12,49 @@ namespace Modernize.API.Controllers.Auth
     {
         #region Declaration
 
-        private readonly ICommandHandler<LoginUserCommand, LoginSuccessCredentialsDto> _loginUserHandler;
+        private readonly ICommandHandler<LoginUserCommand, LoginSuccessDto> _loginUserHandler;
+        private readonly ICommandHandler<CreateUserCommand, UserDto> _createUserHandler;
 
         #endregion
 
         #region Constructor
 
-        public AuthController(ICommandHandler<LoginUserCommand, LoginSuccessCredentialsDto> loginUserHandler)
+        public AuthController(ICommandHandler<LoginUserCommand, LoginSuccessDto> loginUserHandler, ICommandHandler<CreateUserCommand, UserDto> createUserHandler)
         {
             _loginUserHandler = loginUserHandler;
+            _createUserHandler = createUserHandler;
         }
 
         #endregion
 
+        #region Methods
+
+        /// <summary>
+        /// Register new user
+        /// </summary>
+        /// <param name="command">User creation command</param>
+        /// <returns></returns>
         [HttpPost("register")]
-        public async Task<IActionResult> CreateUser([FromBody] UserCreationDto userCreationDto)
+        public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand command)
         {
-            //var user = new ApplicationUser
-            //{
-            //    UserName = userCreationDto.UserName,
-            //    Email = userCreationDto.Email,
-            //    FullName = userCreationDto.FullName,
-            //    DateOfBirth = userCreationDto.DateOfBirth,
-            //    Address = userCreationDto.Address,
-            //    ProfilePictureUrl = userCreationDto.ProfilePictureUrl,
-            //    Description = userCreationDto.Description,
-            //};
+            var createdUserDto = await _createUserHandler.HandleAsync(command);
 
-            //var result = await _userManager.CreateAsync(user, userCreationDto.Password);
-            //_userManager.
-
-            //if (!result.Succeeded)
-            //{
-            //    return BadRequest(result.Errors);
-            //}
-
-            //await _userManager.AddToRoleAsync(user, "Customer");
-
-            //return Ok(result.Succeeded);
-            return Ok();
+            return Ok(createdUserDto);
         }
 
+        /// <summary>
+        /// Login with user credentials
+        /// </summary>
+        /// <param name="command">User login command</param>
+        /// <returns></returns>
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginUserCommand command)
         {
-            var loginSuccessCredentialsDto = await _loginUserHandler.HandleAsync(command);
+            var loginSuccessDto = await _loginUserHandler.HandleAsync(command);
 
-            return Ok(loginSuccessCredentialsDto);
+            return Ok(loginSuccessDto);
         }
+
+        #endregion
     }
 }

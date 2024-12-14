@@ -1,15 +1,22 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Modernize.Application;
 using Modernize.Domain;
+using System.Net;
 
 namespace Modernize.Infrastructure
 {
     public class UserRepository : UserReadonlyRepositoryEFCore, IUserRepository
     {
+        #region Declaration
+
         private readonly AppDbContext _dbContext;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
+
+        #endregion
+
+        #region Constructor
 
         public UserRepository(
             AppDbContext dbContext,
@@ -22,6 +29,12 @@ namespace Modernize.Infrastructure
             _signInManager = signInManager;
             _jwtTokenGenerator = jwtTokenGenerator;
         }
+
+        #endregion
+
+        #region Methods
+
+        #region INSERT
 
         public async Task<User> InsertAsync(User user)
         {
@@ -37,6 +50,10 @@ namespace Modernize.Infrastructure
             throw new NotImplementedException();
         }
 
+        #endregion
+
+        #region UPDATE
+
         public Task<User> UpdateAsync(User user)
         {
             throw new NotImplementedException();
@@ -46,6 +63,10 @@ namespace Modernize.Infrastructure
         {
             throw new NotImplementedException();
         }
+
+        #endregion
+
+        #region DELETE
 
         public Task<int> DeleteAsync(User user)
         {
@@ -57,27 +78,52 @@ namespace Modernize.Infrastructure
             throw new NotImplementedException();
         }
 
+        #endregion
+
+        #region OTHERS
+
         public async Task<string> Login(string email, string password)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
-            if (user is null)
+            if (user == null)
             {
-                return "Invalid email or password";
+                throw new InvalidCredentialException(
+                    ErrorCode.BAD_CREDENTIALS,
+                    HttpStatusCode.BadRequest,
+                    "Invalid email or password"
+                );
             }
 
             var result = await _signInManager.PasswordSignInAsync(user, password, false, false);
 
             if (!result.Succeeded)
             {
-                return "Invalid email or password";
+                throw new InvalidCredentialException(
+                    ErrorCode.BAD_CREDENTIALS,
+                    HttpStatusCode.BadRequest,
+                    "Invalid email or password"
+                );
             }
 
             var roles = await _userManager.GetRolesAsync(user);
 
-            var token = _jwtTokenGenerator.GenerateToken(user, roles);
+            var accessToken = _jwtTokenGenerator.GenerateToken(user, roles);
 
-            return token;
+            return accessToken;
         }
+
+        public async Task<User> CreateUser(User user, string password)
+        {
+            await _userManager.CreateAsync(user, password);
+
+            await _userManager.AddToRoleAsync(user, "Customer");
+
+            return user;
+        }
+
+        #endregion
+
+        #endregion
     }
 }

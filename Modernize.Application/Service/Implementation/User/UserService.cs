@@ -1,20 +1,34 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Modernize.Domain;
 
 namespace Modernize.Application
 {
-    public class UserService : BaseService<User, UserDto, UserCreationDto, UserUpdateDto, Guid>, IUserService<LoginDto>
+    /// <summary>
+    /// User service implementation
+    /// </summary>
+    public class UserService : BaseService<User, UserDto, UserCreationDto, UserUpdateDto, Guid>, IUserService
     {
+        #region Declaration
+
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork, IMapper mapper) : base(userRepository, unitOfWork)
+        #endregion
+
+        #region Constructor
+
+        public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork, IMapper mapper, UserManager<User> userManager) : base(userRepository, unitOfWork)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
+
+        #endregion
+
+        #region Methods
 
         public Task<string> Login(LoginDto loginDto)
         {
@@ -22,6 +36,19 @@ namespace Modernize.Application
 
             return token;
         }
+
+        public new async Task<UserDto> InsertAsync(UserCreationDto userCreationDto)
+        {
+            var user = MapCreationDtoToEntity(userCreationDto);
+
+            await _userRepository.CreateUser(user, userCreationDto.Password);
+
+            var createdUserDto = MapEntityToDto(user);
+
+            return createdUserDto;
+        }
+
+        #region Mapping
 
         public override User MapCreationDtoToEntity(UserCreationDto? userCreationDto)
         {
@@ -37,5 +64,9 @@ namespace Modernize.Application
         {
             return _mapper.Map<User>(userUpdateDto);
         }
+
+        #endregion
+
+        #endregion
     }
 }

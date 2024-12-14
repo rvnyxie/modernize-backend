@@ -39,7 +39,7 @@ namespace Modernize.Application
 
             // User
             services.AddScoped<ICommandHandler<CreateUserCommand, UserDto>, CreateUserCommandHandler>();
-            services.AddScoped<ICommandHandler<LoginUserCommand, LoginSuccessCredentialsDto>, LoginUserCommandHandler>();
+            services.AddScoped<ICommandHandler<LoginUserCommand, LoginSuccessDto>, LoginUserCommandHandler>();
 
             #region Register AutoMapper
 
@@ -61,7 +61,7 @@ namespace Modernize.Application
 
             // User
             services.AddScoped<IUserReadonlyService, UserReadonlyService>();
-            services.AddScoped<IUserService<LoginDto>, UserService>();
+            services.AddScoped<IUserService, UserService>();
 
             #endregion
 
