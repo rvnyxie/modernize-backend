@@ -87,7 +87,7 @@ var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
 
 // ASPNETCORE Identity, map Identity endpoints
-app.MapIdentityApi<User>();
+//app.MapIdentityApi<User>();
 
 // Seed data
 using (var scope = app.Services.CreateScope())
