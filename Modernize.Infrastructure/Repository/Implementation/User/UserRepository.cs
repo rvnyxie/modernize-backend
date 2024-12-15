@@ -12,7 +12,7 @@ namespace Modernize.Infrastructure
         private readonly AppDbContext _dbContext;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly IJwtTokenGenerator _jwtTokenGenerator;
+        private readonly IJwtTokenService _jwtTokenGenerator;
 
         #endregion
 
@@ -22,7 +22,7 @@ namespace Modernize.Infrastructure
             AppDbContext dbContext,
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            IJwtTokenGenerator jwtTokenGenerator) : base(dbContext)
+            IJwtTokenService jwtTokenGenerator) : base(dbContext)
         {
             _dbContext = dbContext;
             _userManager = userManager;

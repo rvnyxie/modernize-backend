@@ -42,7 +42,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // Register JWT Generator service
-builder.Services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
+builder.Services.AddSingleton<IJwtTokenService, JwtTokenService>();
 
 // Register Application services
 builder.Services.AddApplication();
