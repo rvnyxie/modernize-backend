@@ -81,6 +81,17 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
+// Set up CORS
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
+        builder.AllowAnyHeader();
+        builder.AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // Use Middleware
@@ -102,6 +113,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 
