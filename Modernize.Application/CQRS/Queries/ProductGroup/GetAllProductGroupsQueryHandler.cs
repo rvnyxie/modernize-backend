@@ -5,12 +5,22 @@
     /// </summary>
     public class GetAllProductGroupsQueryHandler : IQueryHandler<GetAllProductGroupsQuery, IEnumerable<ProductGroupDto>>
     {
+        #region Declaration
+
         private readonly IProductGroupReadonlyService _productGroupReadonlyService;
+
+        #endregion
+
+        #region Constructor
 
         public GetAllProductGroupsQueryHandler(IProductGroupReadonlyService productGroupReadonlyService)
         {
             _productGroupReadonlyService = productGroupReadonlyService;
         }
+
+        #endregion
+
+        #region Methods
 
         public async Task<IEnumerable<ProductGroupDto>> HandleAsync(GetAllProductGroupsQuery query)
         {
@@ -18,5 +28,7 @@
 
             return dtoEntities;
         }
+
+        #endregion
     }
 }

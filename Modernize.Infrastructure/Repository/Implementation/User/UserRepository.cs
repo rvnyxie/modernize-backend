@@ -5,6 +5,9 @@ using System.Net;
 
 namespace Modernize.Infrastructure
 {
+    /// <summary>
+    /// Implementation of user repository using EF Core
+    /// </summary>
     public class UserRepository : UserReadonlyRepositoryEFCore, IUserRepository
     {
         #region Declaration
@@ -22,7 +25,7 @@ namespace Modernize.Infrastructure
             AppDbContext dbContext,
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            IJwtTokenService jwtTokenGenerator) : base(dbContext)
+            IJwtTokenService jwtTokenGenerator) : base(dbContext, userManager)
         {
             _dbContext = dbContext;
             _userManager = userManager;

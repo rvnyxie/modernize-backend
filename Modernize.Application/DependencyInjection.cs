@@ -23,6 +23,9 @@ namespace Modernize.Application
             // Product Group
             services.AddScoped<IQueryHandler<GetAllProductGroupsQuery, IEnumerable<ProductGroupDto>>, GetAllProductGroupsQueryHandler>();
 
+            // User
+            services.AddScoped<IQueryHandler<GetUserInfoQuery, UserDto>, GetUserInfoQueryHandler>();
+
             #endregion
 
             #region Register command handler
