@@ -13,6 +13,7 @@ namespace Modernize.Application
             // Query, Command
             CreateMap<CreateUserCommand, UserCreationDto>();
             CreateMap<LoginUserCommand, LoginDto>();
+            CreateMap<UpdateCurrentUserCommand, UserUpdateDto>();
 
             // To Entity
             CreateMap<UserCreationDto, User>();

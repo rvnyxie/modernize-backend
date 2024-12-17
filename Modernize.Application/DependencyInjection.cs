@@ -43,6 +43,7 @@ namespace Modernize.Application
             // User
             services.AddScoped<ICommandHandler<CreateUserCommand, UserDto>, CreateUserCommandHandler>();
             services.AddScoped<ICommandHandler<LoginUserCommand, LoginSuccessDto>, LoginUserCommandHandler>();
+            services.AddScoped<ICommandHandler<UpdateCurrentUserCommand, UserDto>, UpdateCurrentUserCommandHandler>();
 
             #region Register AutoMapper
 

@@ -1,14 +1,15 @@
 ﻿namespace Modernize.Application
 {
-    public class UserCreationDto
+    /// <summary>
+    /// Command of updating current authenticated user
+    /// </summary>
+    public class UpdateCurrentUserCommand : ICommand<UserDto>
     {
         #region Personal info
 
+        public Guid Id { get; set; }
+
         public string UserName { get; set; } = null!;
-
-        public string Email { get; set; } = null!;
-
-        public string Password { get; set; } = null!;
 
         public string? FullName { get; set; }
 

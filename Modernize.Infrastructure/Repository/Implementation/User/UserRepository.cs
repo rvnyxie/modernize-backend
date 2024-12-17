@@ -57,9 +57,21 @@ namespace Modernize.Infrastructure
 
         #region UPDATE
 
-        public Task<User> UpdateAsync(User user)
+        public async Task<User> UpdateAsync(User user)
         {
-            throw new NotImplementedException();
+            var updatingResult = await _userManager.UpdateAsync(user);
+
+            if (!updatingResult.Succeeded)
+            {
+                throw new UserModificationException(
+                    ErrorCode.BAD_MODIFICATION,
+                    HttpStatusCode.BadRequest,
+                    "Unable to update user",
+                    updatingResult.Errors
+                );
+            }
+
+            return user;
         }
 
         public Task<IEnumerable<User>> UpdateManyAsync(IEnumerable<User> users)

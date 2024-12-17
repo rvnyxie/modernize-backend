@@ -13,6 +13,9 @@ namespace Modernize.Domain
         [Description("Entity not found")]
         ENTITY_NOT_FOUND = 4041,
 
+        [Description("Bad modification action")]
+        BAD_MODIFICATION = 4002,
+
         [Description("Unknown exception")]
         UNHANDLED = 5000
     }

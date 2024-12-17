@@ -18,16 +18,23 @@ namespace Modernize.API
         #region Declartion
 
         private readonly UserManager<User> _userManager;
+
         private readonly IQueryHandler<GetUserInfoQuery, UserDto> _getUserInfoHandler;
+
+        private readonly ICommandHandler<UpdateCurrentUserCommand, UserDto> _updateCurrentUserHandler;
 
         #endregion
 
         #region Constructor
 
-        public UsersController(UserManager<User> userManager, IQueryHandler<GetUserInfoQuery, UserDto> getUserInfoHandler)
+        public UsersController(
+            UserManager<User> userManager,
+            IQueryHandler<GetUserInfoQuery, UserDto> getUserInfoHandler,
+            ICommandHandler<UpdateCurrentUserCommand, UserDto> updateCurrentUserHandler)
         {
             _userManager = userManager;
             _getUserInfoHandler = getUserInfoHandler;
+            _updateCurrentUserHandler = updateCurrentUserHandler;
         }
 
         #endregion
@@ -54,6 +61,19 @@ namespace Modernize.API
             var currentAuthenticatedUserDto = await _getUserInfoHandler.HandleAsync(query);
 
             return Ok(currentAuthenticatedUserDto);
+        }
+
+        /// <summary>
+        /// Update current authenticated user
+        /// </summary>
+        /// <param name="command">Command of updating current authenticated user</param>
+        /// <returns>Current updated user DTO</returns>
+        [HttpPost("me")]
+        public async Task<IActionResult> UpdateCurrentAuthenticatedUser(UpdateCurrentUserCommand command)
+        {
+            var currentUpdatedAuthenticatedUserDto = await _updateCurrentUserHandler.HandleAsync(command);
+
+            return Ok(currentUpdatedAuthenticatedUserDto);
         }
 
         #endregion

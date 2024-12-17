@@ -14,6 +14,7 @@ namespace Modernize.Application
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
 
         #endregion
 
@@ -24,6 +25,7 @@ namespace Modernize.Application
             _userRepository = userRepository;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _userManager = userManager;
         }
 
         #endregion
@@ -46,6 +48,29 @@ namespace Modernize.Application
             var createdUserDto = MapEntityToDto(user);
 
             return createdUserDto;
+        }
+
+        public new async Task<UserDto> UpdateAsync(UserUpdateDto userUpdateDto)
+        {
+            var existingUser = await _userManager.FindByIdAsync(userUpdateDto.Id.ToString());
+
+            if (existingUser == null)
+            {
+                throw new NotFoundException(
+                    ErrorCode.ENTITY_NOT_FOUND,
+                    System.Net.HttpStatusCode.BadRequest,
+                    "User not found"
+                );
+            }
+
+            // Use AutoMapper to map fields from UserUpdateDto onto the existing User entity
+            _mapper.Map(userUpdateDto, existingUser);
+
+            var updatedUser = await _userRepository.UpdateAsync(existingUser);
+
+            var updatedUserDto = MapEntityToDto(updatedUser);
+
+            return updatedUserDto;
         }
 
         #region Mapping

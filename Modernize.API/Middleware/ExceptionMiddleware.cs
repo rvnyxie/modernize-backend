@@ -56,6 +56,14 @@ namespace Modernize.API
                         text: exception.ToString()
                     );
                     break;
+                case UserModificationException userModificationException:
+                    context.Response.StatusCode = (int)userModificationException.HttpStatusCode;
+                    await context.Response.WriteAsync(text: exception.ToString());
+                    break;
+                case UserNotFoundException userNotFoundException:
+                    context.Response.StatusCode = (int)userNotFoundException.HttpStatusCode;
+                    await context.Response.WriteAsync(text: exception.ToString());
+                    break;
                 default:
                     context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                     await context.Response.WriteAsync(
