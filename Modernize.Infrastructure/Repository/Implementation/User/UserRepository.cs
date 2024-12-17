@@ -83,9 +83,21 @@ namespace Modernize.Infrastructure
 
         #region DELETE
 
-        public Task<int> DeleteAsync(User user)
+        public async Task<int> DeleteAsync(User user)
         {
-            throw new NotImplementedException();
+            var deletingResult = await _userManager.DeleteAsync(user);
+
+            if (!deletingResult.Succeeded)
+            {
+                throw new UserModificationException(
+                    ErrorCode.BAD_MODIFICATION,
+                    HttpStatusCode.BadRequest,
+                    "Unable to delete user",
+                    deletingResult.Errors
+                );
+            }
+
+            return 1;
         }
 
         public Task<int> DeleteManyAsync(IEnumerable<User> users)

@@ -22,6 +22,7 @@ namespace Modernize.API
         private readonly IQueryHandler<GetUserInfoQuery, UserDto> _getUserInfoHandler;
 
         private readonly ICommandHandler<UpdateCurrentUserCommand, UserDto> _updateCurrentUserHandler;
+        private readonly ICommandHandler<DeleteCurrentUserCommand, int> _deleteCurrentUserHandler;
 
         #endregion
 
@@ -30,11 +31,13 @@ namespace Modernize.API
         public UsersController(
             UserManager<User> userManager,
             IQueryHandler<GetUserInfoQuery, UserDto> getUserInfoHandler,
-            ICommandHandler<UpdateCurrentUserCommand, UserDto> updateCurrentUserHandler)
+            ICommandHandler<UpdateCurrentUserCommand, UserDto> updateCurrentUserHandler,
+            ICommandHandler<DeleteCurrentUserCommand, int> deleteCurrentUserHandler)
         {
             _userManager = userManager;
             _getUserInfoHandler = getUserInfoHandler;
             _updateCurrentUserHandler = updateCurrentUserHandler;
+            _deleteCurrentUserHandler = deleteCurrentUserHandler;
         }
 
         #endregion
@@ -74,6 +77,21 @@ namespace Modernize.API
             var currentUpdatedAuthenticatedUserDto = await _updateCurrentUserHandler.HandleAsync(command);
 
             return Ok(currentUpdatedAuthenticatedUserDto);
+        }
+
+        /// <summary>
+        /// Delete current authenticated user
+        /// </summary>
+        /// <param name="id">User ID</param>
+        /// <returns>Rows affected</returns>
+        [HttpDelete("me/{id}")]
+        public async Task<IActionResult> DeleteCurrentAuthenticatedUser(string id)
+        {
+            var deleteCurrentUserCommand = new DeleteCurrentUserCommand() { Id = Guid.Parse(id) };
+
+            var rowsAffected = await _deleteCurrentUserHandler.HandleAsync(deleteCurrentUserCommand);
+
+            return Ok(rowsAffected);
         }
 
         #endregion

@@ -73,6 +73,24 @@ namespace Modernize.Application
             return updatedUserDto;
         }
 
+        public new async Task<int> DeleteByIdAsync(Guid id)
+        {
+            var existingUser = await _userManager.FindByIdAsync(id.ToString());
+
+            if (existingUser == null)
+            {
+                throw new NotFoundException(
+                    ErrorCode.ENTITY_NOT_FOUND,
+                    System.Net.HttpStatusCode.BadRequest,
+                    "User not found"
+                );
+            }
+
+            var rowsAffected = await _userRepository.DeleteAsync(existingUser);
+
+            return rowsAffected;
+        }
+
         #region Mapping
 
         public override User MapCreationDtoToEntity(UserCreationDto? userCreationDto)

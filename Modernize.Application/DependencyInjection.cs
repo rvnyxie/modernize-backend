@@ -44,6 +44,7 @@ namespace Modernize.Application
             services.AddScoped<ICommandHandler<CreateUserCommand, UserDto>, CreateUserCommandHandler>();
             services.AddScoped<ICommandHandler<LoginUserCommand, LoginSuccessDto>, LoginUserCommandHandler>();
             services.AddScoped<ICommandHandler<UpdateCurrentUserCommand, UserDto>, UpdateCurrentUserCommandHandler>();
+            services.AddScoped<ICommandHandler<DeleteCurrentUserCommand, int>, DeleteCurrentUserCommandHandler>();
 
             #region Register AutoMapper
 
